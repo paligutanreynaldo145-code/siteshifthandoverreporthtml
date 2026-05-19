@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shift Handover Report Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f6f9; color: #333; }
+        .form-container { max-width: 850px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1, h2, h3 { color: #0056b3; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        h3 { color: #495057; font-size: 1.1rem; margin-top: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 2fr; gap: 15px; align-items: center; margin-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="date"], input[type="number"], textarea, select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .role-label { background-color: #e9ecef; padding: 8px; font-weight: bold; border-radius: 4px; text-align: center; border: 1px solid #ced4da; }
+        .checkbox-group { margin: 10px 0; display: flex; align-items: flex-start; }
+        .checkbox-group input { margin-right: 10px; margin-top: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f8f9fa; }
+        button { background-color: #0056b3; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        button:hover { background-color: #004085; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Shift Handover Report Form</h1>
+    
+    <form id="handoverForm">
+        <h2>Facility & Shift Administration</h2>
+        
+        <div class="form-group">
+            <label for="dcSite">Data Center Site Selection</label>
+            <select id="dcSite" required>
+                <option value="" disabled selected>-- Select Target Data Center Facility --</option>
+                <option value="dc01-north">RELIANCE</option>
+                <option value="dc02-south">CALOOCAN</option>
+                <option value="dc03-east">CLARK</option>
+                <option value="dc-custom">ANGELES</option>
+            </select>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group"><label>Date</label><input type="date" required></div>
+            <div class="form-group"><label>Shift/Time</label><input type="text" placeholder="e.g. Day Shift 06:00 - 18:00" required></div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group"><label>Outgoing Site Lead</label><input type="text" required></div>
+            <div class="form-group"><label>Incoming Site Lead</label><input type="text" required></div>
+        </div>
+
+        <h3>Teams Name on Duty & Specific Tasks</h3>
+        
+        <div class="grid-3">
+            <div class="role-label">NOC</div>
+            <div><input type="text" placeholder="Names / Assigned Shift Tasks (e.g., Alarm monitoring, ticket triage)" required></div>
+        </div>
+        
+        <div class="grid-3">
+            <div class="role-label">DC ENGINEER</div>
+            <div><input type="text" placeholder="Names / Assigned Shift Tasks (e.g., Chiller maintenance, BMS monitoring)" required></div>
+        </div>
+        
+        <div class="grid-3">
+            <div class="role-label">DC TECH</div>
+            <div><input type="text" placeholder="Names / Assigned Shift Tasks (e.g., Smart hands, structural patching)" required></div>
+        </div>
+
+        <h2>1. Incidents & Events Log</h2>
+        <div class="checkbox-group">
+            <input type="checkbox" id="safety"><label for="safety">1) Safety Events (Near-misses, LOTO, Hazards)</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="security"><label for="security">2) Security Events (Breaches, CCTV faults)</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="env"><label for="env">11) Environmental Matters (Leaks, Spills)</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="external"><label for="external">12) External Events (Weather warnings, Grid instability)</label>
+        </div>
+        <div class="form-group">
+            <label>Incident Details / Explanations</label>
+            <textarea rows="3" placeholder="Provide details if any boxes above are checked..."></textarea>
+        </div>
+
+        <h2>2. Maintenance & Operations</h2>
+        <div class="form-group">
+            <label>3) Major Maintenance & Operational Events</label>
+            <textarea rows="2" placeholder="Grid-to-Gen transitions, critical component overhauls, etc."></textarea>
+        </div>
+        <div class="form-group">
+            <label>4) Actions Taken During Shift</label>
+            <textarea rows="2" placeholder="Key tasks and troubleshooting completed..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>5) Routine Duties (Completed & Scheduled)</label>
+            <textarea rows="2" placeholder="What rounds were done? What needs to be done next shift?"></textarea>
+        </div>
+        <div class="form-group">
+            <label>6) Work Outstanding / In Progress (Include Active PTWs)</label>
+            <textarea rows="2" placeholder="List ongoing works and Permit to Work (PTW) numbers..."></textarea>
+        </div>
+
+        <h2>3. Equipment Status & Environmental Parameters</h2>
+        <div class="form-group">
+            <label>7c) Alarm Conditions</label>
+            <select>
+                <option>All Systems Clear - No Active Alarms</option>
+                <option>Critical / Major Alarms Active (Detail below)</option>
+            </select>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Current Reading</th>
+                    <th>Target Range</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>7a. Power Consumption</strong></td>
+                    <td><input type="text" placeholder="kW / MW"></td>
+                    <td>Facility Target</td>
+                    <td><select><option>OK</option><option>ALERT</option></select></td>
+                </tr>
+                <tr>
+                    <td><strong>7b. Temp / Humidity</strong></td>
+                    <td><input type="text" placeholder="°C / % RH"></td>
+                    <td>18°C-27°C / 20%-60%</td>
+                    <td><select><option>OK</option><option>ALERT</option></select></td>
+                </tr>
+                <tr>
+                    <td><strong>7b. Water / Airflow</strong></td>
+                    <td><input type="text" placeholder="Flow rates"></td>
+                    <td>Nominal Ranges</td>
+                    <td><select><option>OK</option><option>ALERT</option></select></td>
+                </tr>
+                <tr>
+                    <td><strong>7d. PUE Metric</strong></td>
+                    <td><input type="number" step="0.01" placeholder="e.g. 1.25"></td>
+                    <td>Target PUE</td>
+                    <td><select><option>OK</option><option>ALERT</option></select></td>
+                </tr>
+                <tr>
+                    <td><strong>7e. WUE Metric</strong></td>
+                    <td><input type="number" step="0.01" placeholder="L/kWh"></td>
+                    <td>Target WUE</td>
+                    <td><select><option>OK</option><option>ALERT</option></select></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. Logistics & Resources</h2>
+        <div class="form-group">
+            <label>8) Current Vendors or Customers on Site</label>
+            <textarea rows="2" placeholder="List active external vendors, visitors, and customers on site..."></textarea>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="tools" required><label for="tools">9) Key Tools & Inventory Checked (Multi-meters, Power Tools, LOTO Keys checked & accounted for)</label>
+        </div>
+        <div class="form-group">
+            <label>10) Personnel Issues</label>
+            <textarea rows="2" placeholder="Sickness, scheduling issues, call-outs..."></textarea>
+        </div>
+
+        <h2>5. Sign-Off & Remarks</h2>
+        <div class="form-group">
+            <label>13) General Comments / Remarks</label>
+            <textarea rows="2"></textarea>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group"><label>14) Outgoing Site Lead Electronic Signature</label><input type="text" placeholder="Type name to sign" required></div>
+            <div class="form-group"><label>14) Incoming Site Lead Electronic Signature</label><input type="text" placeholder="Type name to sign" required></div>
+        </div>
+
+        <button type="submit">Submit Handover Report</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('handoverForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const selectedSite = document.getElementById('dcSite').value;
+        alert('Handover report for site [' + selectedSite.toUpperCase() + '] submitted successfully!');
+    });
+</script>
+</body>
+</html>
